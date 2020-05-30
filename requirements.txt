@@ -7,3 +7,4 @@ coverage
 # paramiko
 # pycrypto
 Flask-login
+gunicorn
