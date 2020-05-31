@@ -2,6 +2,9 @@ from app import create_app
 from flask_login import LoginManager, UserMixin, login_required
 from flask import Flask, g
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
 
 
 class User:
@@ -48,6 +51,13 @@ class User:
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
 
 
 app = create_app('config.development')
