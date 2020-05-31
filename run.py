@@ -1,4 +1,4 @@
-from app import create_app, login
+from app import create_app
 from flask_login import LoginManager, UserMixin
 from flask import Flask, g
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -17,11 +17,11 @@ class User:
             self.authenticated = True
         else:
             # should check if authenticated, now just overwriting password
-            self.set_password(password)
+            self.password_hash = self.set_password(password)
             self.authenticated = True
         self.active = True
         self.anon = False
-        self.id = make_id(username)
+        self.id = self.make_id(username)
 
     @staticmethod
     def make_id(username):
@@ -40,10 +40,11 @@ class User:
         return self.anon
 
     def get_id(self):
-        return unicode(self.id)
+        return str(self.id).encode("utf-8").decode("utf-8")
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+    @staticmethod
+    def make_password(password):
+        return generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
