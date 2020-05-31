@@ -1,5 +1,5 @@
 from app import create_app
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin, login_required
 from flask import Flask, g
 from werkzeug.security import generate_password_hash, check_password_hash
 
