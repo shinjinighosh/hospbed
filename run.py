@@ -1,16 +1,20 @@
+from werkzeug.utils import redirect
+
 from app import create_app
-from flask_login import LoginManager, UserMixin, login_required
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 from flask import Flask, g
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
+from urllib.parse import urlparse, urljoin
+import flask
 
 
 class User:
 
     # currently storing here, will be db later
-    # users = {}
+    # users = {id --> User?}
 
     def __init__(self, username, password, new=True):
         # user_info = {}
@@ -60,7 +64,14 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 
+def is_safe_url(target):
+    ref_url = urlparse(flask.request.host_url)
+    test_url = urlparse(urljoin(flask.request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
+
 app = create_app('config.development')
+app.secret_key = b'jdnhfximijrefxierhfiuuuuuuhei'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -121,7 +132,7 @@ def login_new():
 @login_required
 def logout():
     logout_user()
-    return redirect(somewhere)
+    return redirect("index.html")
 
 
 if __name__ == '__main__':
