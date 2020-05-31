@@ -4,7 +4,7 @@ from flask import Flask, g
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User():
+class User:
 
     # currently storing here, will be db later
     # users = {}
