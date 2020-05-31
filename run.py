@@ -132,7 +132,13 @@ def login_new():
 @login_required
 def logout():
     logout_user()
-    return redirect("index.html")
+    return redirect("/")
+
+
+@app.route("/settings")
+@login_required
+def settings():
+    pass
 
 
 if __name__ == '__main__':
