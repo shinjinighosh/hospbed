@@ -3,8 +3,11 @@ Flask-SQLAlchemy
 Flask-WTF
 WTForms
 coverage
+Flask-login
+gunicorn
+Flask~=1.1.2
+app~=0.0.1
+Werkzeug~=1.0.1
 # ecdsa
 # paramiko
 # pycrypto
-Flask-login
-gunicorn
